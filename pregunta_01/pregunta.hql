@@ -13,17 +13,20 @@ Escriba el resultado a la carpeta `output` de directorio de trabajo.
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS data;
+CREATE TABLE data (letter        STRING,
+                   dates         DATE,
+                   number        INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
 
-DROP TABLE IF EXISTS t1;
+LOAD DATA LOCAL INPATH "data.tsv" OVERWRITE INTO TABLE data;
 
-CREATE TABLE tb1 (letter STRING,
-                 fecha DATE,
-                 number int)
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY '\t';
-
-LOAD DATA LOCAL INPATH 'data.tsv' OVERWRITE INTO TABLE tb1 ;
-
-INSERT OVERWRITE local directory 'output'
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-SELECT letter,count(*) FROM tb1 GROUP BY letter;
+SELECT letter, count(letter) AS count
+    FROM data
+GROUP BY
+    letter
+ORDER BY
+    letter;
+
