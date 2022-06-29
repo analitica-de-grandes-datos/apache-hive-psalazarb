@@ -43,3 +43,4 @@ LATERAL VIEW
 LATERAL VIEW
     EXPLODE(c2) t0 AS letra
 GROUP BY letra, letras;
+ 
